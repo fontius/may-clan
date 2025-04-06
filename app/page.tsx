@@ -8,20 +8,21 @@ export default function Home() {
           className="dark:invert"
           src="/next.svg"
           alt="Next.js logo"
-          width={180}
-          height={38}
+          width={1220}
+          height={1158}
           priority
         />
         <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
           <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
+            WU 300 British Pounds to Kenneth Henry Fontius{" "}
+           
+          
           </li>
           <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
+            Code here https://github.com/fontius/greymatterfs.
+          </li>
+          <li className="tracking-[-.01em]">
+            Temporary live site in progress https://nsk8o0sw84gks4sskso84os0.yonkerslu.com/.
           </li>
         </ol>
 
