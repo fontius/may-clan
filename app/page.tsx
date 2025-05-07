@@ -14,16 +14,14 @@ export default function Home() {
         />
         <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
           <li className="mb-2 tracking-[-.01em]">
-            WU 300 British Pounds to Kenneth Henry Fontius{" "}
+            UNDER__CONSTRUCTION - WU to Kenneth Henry Fontius{" "}
            
           
           </li>
           <li className="tracking-[-.01em]">
             Code here https://github.com/fontius/greymatterfs.
           </li>
-          <li className="tracking-[-.01em]">
-            Temporary live site in progress https://nsk8o0sw84gks4sskso84os0.yonkerslu.com/.
-          </li>
+        
         </ol>
 
         <div className="flex gap-4 items-center flex-col sm:flex-row">
