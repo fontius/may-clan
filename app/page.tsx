@@ -1,9 +1,8 @@
 // File: app/page.tsx
 "use client"; // This page now uses a client-side hook
 
-import Image from "next/image";
+
 import { useSectionInView } from "@/lib/hooks"; // Import the hook
-import { links } from "@/lib/data"; // To get section names easily (optional, can hardcode)
 
 export default function Home() {
   // --- Data Flow: Connecting Sections to Context ---
