@@ -1,102 +1,59 @@
+// File: app/page.tsx
+"use client"; // This page now uses a client-side hook
+
 import Image from "next/image";
+import { useSectionInView } from "@/lib/hooks"; // Import the hook
+import { links } from "@/lib/data"; // To get section names easily (optional, can hardcode)
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={1220}
-          height={1158}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            UNDER__CONSTRUCTION - WU to Kenneth Henry Fontius{" "}
-           
-          
-          </li>
-          <li className="tracking-[-.01em]">
-            Code here https://github.com/fontius/greymatterfs.
-          </li>
-        
-        </ol>
+  // --- Data Flow: Connecting Sections to Context ---
+  // For each section, `useSectionInView` is called:
+  // a. It takes the `SectionName` (e.g., "Home", "Services") as an argument.
+  // b. It returns a `ref` object.
+  // c. This `ref` is attached to the corresponding `<section>` element.
+  // d. When the section scrolls into view (based on the threshold in the hook),
+  //    the hook's internal `useEffect` calls `setActiveSection` (from the context),
+  //    updating the global state. This, in turn, causes the `Header` to re-render
+  //    and highlight the correct link.
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+  const { ref: homeRef } = useSectionInView("Home", 0.5); // 0.5 threshold for home, adjust as needed
+  const { ref: servicesRef } = useSectionInView("Services");
+  const { ref: aboutUsRef } = useSectionInView("About Us"); // Ensure names match lib/data.ts
+  const { ref: contactRef } = useSectionInView("Contact");
+
+  return (
+    <main className="flex flex-col items-center px-4">
+      <section
+        ref={homeRef}
+        id="home"
+        className="h-screen bg-blue-100 w-full flex items-center justify-center scroll-mt-19" // UPDATED scroll-mt
+      >
+        <h1 className="text-4xl">Home Section (UNDER_CONSTRUCTION)</h1>
+      </section>
+
+      <section
+        ref={servicesRef}
+        id="services"
+        className="h-screen bg-green-100 w-full flex items-center justify-center scroll-mt-19" // UPDATED scroll-mt
+      >
+        <h2 className="text-3xl">Services Section</h2>
+      </section>
+
+      <section
+        ref={aboutUsRef}
+        id="about-us"
+        className="h-screen bg-yellow-100 w-full flex items-center justify-center scroll-mt-19" // UPDATED scroll-mt
+      >
+        <h2 className="text-3xl">About Us Section</h2>
+      </section>
+
+      <section
+        ref={contactRef}
+        id="contact"
+        className="h-screen bg-purple-100 w-full flex items-center justify-center scroll-mt-19" // UPDATED scroll-mt
+      >
+        <h2 className="text-3xl">Contact Section</h2>
+      </section>
+    </main>
   );
 }
