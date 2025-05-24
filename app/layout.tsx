@@ -28,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased pt-18 sm:pt-19`} // UPDATED PADDING
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`} // UPDATED PADDING
       >
         <ActiveSectionContextProvider>
           <Header />
