@@ -6,7 +6,7 @@ export const links = [
     hash: "#home",
   },
   {
-    name: "Services", // Example, change as needed
+    name: "Services",
     hash: "#services",
   },
   {
@@ -18,5 +18,3 @@ export const links = [
     hash: "#contact",
   },
 ] as const; // "as const" is important for type inference
-
-// You can add other data here later as in AnikaPortfolio (experiencesData, projectsData, etc.)

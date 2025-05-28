@@ -58,7 +58,7 @@ export default function Header() {
                     //    IF `link.name` (e.g., "Services") matches the `activeSection`
                     //    state from the context. This highlights the active link.
                     "text-gray-950 dark:text-gray-200":
-                      activeSection === link.name,
+                      activeSection.toLowerCase() === link.name.toLowerCase(),
                   }
                 )}
                 href={link.hash} // The URL fragment (e.g., "#services")
