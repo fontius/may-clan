@@ -178,7 +178,7 @@ export default function Home() {
               <p className="text-lg leading-relaxed">
                 {`Our company ethos `}
                 <span className="font-semibold text-amber-600">
-                  "Your Protection Matters"
+                  Your Protection Matters
                 </span>
                 {` stands at the core of everything we do. We take great pride that every aspect of our service meets the highest mark and exceed our customers' expectations. That's why most of our clients stay with us for years, confident of our service quality and reassured by our diligence to their protection needs.`}
               </p>
