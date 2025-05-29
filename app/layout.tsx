@@ -17,7 +17,25 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "GREYMATTER",
-  description: "Fire and Security sevice provider",
+  description: "Fire and Security service provider",
+  keywords: ["fire safety", "security systems", "alarm systems", "cctv", "access control", "fire protection"],
+  openGraph: {
+    title: "GREYMATTER - Fire & Security Solutions",
+    description: "Professional fire safety and security system services",
+    images: [
+      {
+        url: '/og/home-default.png',
+        width: 1200,
+        height: 630,
+      }
+    ]
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "GREYMATTER - Fire & Security Solutions",
+    description: "Professional fire safety and security system services",
+    images: ['/og/home-default.png'],
+  }
 };
 
 export default function RootLayout({
