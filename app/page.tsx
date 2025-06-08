@@ -72,7 +72,7 @@ export default function Home() {
               <h3 className="text-3xl md:text-4xl font-bold mb-6 text-gray-800 dark:text-gray-100">Our Core Shipping Services</h3>
               <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-300 max-w-4xl mx-auto">
                 At May-Clan, we provide a suite of specialized logistics solutions designed to make shipping between Canada and Nigeria
-                effortless and efficient. Whether it's your car, commercial goods, or personal items, we've got you covered.
+                effortless and efficient. Whether its your car, commercial goods, or personal items, we've got you covered.
               </p>
             </div>
 
@@ -125,7 +125,7 @@ export default function Home() {
             <h2 className="text-3xl md:text-4xl font-bold mb-8 text-gray-800 dark:text-gray-100">About May-Clan</h2>
             <div className="space-y-6 text-gray-700 dark:text-gray-300">
               <p className="text-lg leading-relaxed">
-                May-Clan is a premier shipping and logistics company specializing in connecting Canada and Nigeria. With years of experience, we've built a reputation for reliability, efficiency, and customer-centric service.
+                May-Clan is a premier shipping and logistics company specializing in connecting Canada and Nigeria. With years of experience, weve built a reputation for reliability, efficiency, and customer-centric service.
               </p>
               <p className="text-lg leading-relaxed">
                 {`Our mission is to `}
@@ -138,7 +138,7 @@ export default function Home() {
                 The May-Clan team comprises experienced professionals dedicated to ensuring your cargo reaches its destination safely and on time. We leverage a global network and local expertise to navigate the complexities of international trade regulations and transportation.
               </p>
               <p className="text-lg leading-relaxed font-medium text-gray-800 dark:text-gray-200">
-                Whether you're relocating, importing goods for your business, or sending personal items, May-Clan is your trusted partner every step of the way.
+                Whether youre relocating, importing goods for your business, or sending personal items, May-Clan is your trusted partner every step of the way.
               </p>
             </div>
           </div>
