@@ -4,6 +4,7 @@
 import { useSectionInView } from "@/lib/hooks"; // Import the hook
 import Contact from "@/components/Contact";
 import { SectionName } from "@/lib/types";
+import Image from 'next/image';
 
 
 export default function Home() {
@@ -32,9 +33,11 @@ export default function Home() {
         <div className="text-center max-w-4xl">
           {/* May-Clan Logo */}
           <div className="mb-8 flex flex-col items-center">
-            <img 
+            <Image 
               src="/images/logobig.png" 
               alt="May-Clan Logo"
+              width={216}
+              height={72}
               className="w-[162px] h-[54px] md:w-[216px] md:h-[72px] mb-6"
             />
 
@@ -129,7 +132,7 @@ export default function Home() {
                 <span className="font-semibold text-sky-700 dark:text-sky-400">
                   simplify international shipping
                 </span>
-                {` for individuals and businesses alike. We understand the challenges of cross-border logistics and strive to provide transparent, cost-effective solutions tailored to your unique needs.`}
+                {` for individuals and businesses' alike. We understand the challenges of cross-border logistics and strive to provide transparent, cost-effective solutions tailored to your' unique needs.`}
               </p>
               <p className="text-lg leading-relaxed">
                 The May-Clan team comprises experienced professionals dedicated to ensuring your cargo reaches its destination safely and on time. We leverage a global network and local expertise to navigate the complexities of international trade regulations and transportation.
