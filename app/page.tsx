@@ -3,7 +3,7 @@
 
 import { useSectionInView } from "@/lib/hooks"; // Import the hook
 import Contact from "@/components/Contact";
-import { SectionName } from "@/lib/types";
+
 import Image from 'next/image';
 
 
@@ -72,7 +72,7 @@ export default function Home() {
               <h3 className="text-3xl md:text-4xl font-bold mb-6 text-gray-800 dark:text-gray-100">Our Core Shipping Services</h3>
               <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-300 max-w-4xl mx-auto">
                 At May-Clan, we provide a suite of specialized logistics solutions designed to make shipping between Canada and Nigeria
-                effortless and efficient. Whether its your car, commercial goods, or personal items, we've got you covered.
+                effortless and efficient. Whether its your car, commercial goods, or personal items, weve got you covered.
               </p>
             </div>
 
