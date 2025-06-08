@@ -1,30 +1,25 @@
 // File: app/layout.tsx
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import ActiveSectionContextProvider from "@/context/active-section-context";
 import Header from "@/components/Header"; // Import the Header component
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "GREYMATTER",
-  description: "Fire and Security service provider",
-  keywords: ["fire safety", "security systems", "alarm systems", "cctv", "access control", "fire protection"],
+  title: "May-Clan | Canada-Nigeria Shipping & Logistics",
+  description: "May-Clan offers comprehensive vehicle shipping, freight forwarding, and customs clearance services between Canada and Nigeria",
+  keywords: ["Canada to Nigeria shipping", "vehicle shipping", "freight forwarding", "customs clearance", "logistics", "international shipping"],
   openGraph: {
-    title: "GREYMATTER - Fire & Security Solutions",
-    description: "Professional fire safety and security system services",
+    title: "May-Clan | Canada-Nigeria Shipping & Logistics",
+    description: "Reliable vehicle shipping and freight forwarding services between Canada and Nigeria",
     images: [
       {
-        url: '/og/home-default.png',
+        url: '/og/may-clan-og-large.png',
         width: 1200,
         height: 630,
       }
@@ -32,9 +27,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: "GREYMATTER - Fire & Security Solutions",
-    description: "Professional fire safety and security system services",
-    images: ['/og/home-default.png'],
+    title: "May-Clan | Canada-Nigeria Shipping & Logistics",
+    description: "Reliable vehicle shipping and freight forwarding services between Canada and Nigeria",
+    images: ['/og/may-clan-og-large.png'],
   }
 };
 
@@ -46,7 +41,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`} // UPDATED PADDING
+        className={`${inter.variable} antialiased`} 
       >
         <ActiveSectionContextProvider>
           <Header />
