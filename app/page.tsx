@@ -3,7 +3,7 @@
 
 import { useSectionInView } from "@/lib/hooks"; // Import the hook
 import Contact from "@/components/Contact";
-
+import Gallery from "@/components/Gallery";
 import Image from 'next/image';
 
 
@@ -20,7 +20,10 @@ export default function Home() {
 
   const { ref: homeRef } = useSectionInView("Home", 0.5); // 0.5 threshold for home, adjust as needed
   const { ref: servicesRef } = useSectionInView("Services");
-  const { ref: aboutUsRef } = useSectionInView("About Us"); // Ensure names match lib/data.ts
+   const { ref: dealsRef } = useSectionInView("Deals"
+   // Ensure names match lib/data.ts
+ );
+
     // const { ref: contactRef } = useSectionInView("Contact"); // contactRef is handled inside Contact.tsx nowv
 
   return (
@@ -114,43 +117,24 @@ export default function Home() {
         </div>
       </section>
 
-      <section 
-        ref={aboutUsRef}
-        id="about-us"
-        className={`min-h-screen bg-amber-50 dark:bg-amber-900/30 w-full flex items-center justify-center scroll-mt-19 py-16 px-4`}
-      >
-        <div className="max-w-6xl w-full flex flex-col md:flex-row items-center gap-12">
-          {/* Text Content */}
-          <div className="md:w-1/2">
-            <h2 className="text-3xl md:text-4xl font-bold mb-8 text-gray-800 dark:text-gray-100">About May-Clan</h2>
-            <div className="space-y-6 text-gray-700 dark:text-gray-300">
-              <p className="text-lg leading-relaxed">
-                May-Clan is a premier shipping and logistics company specializing in connecting Canada and Nigeria. With years of experience, weve built a reputation for reliability, efficiency, and customer-centric service.
-              </p>
-              <p className="text-lg leading-relaxed">
-                {`Our mission is to `}
-                <span className="font-semibold text-sky-700 dark:text-sky-400">
-                  simplify international shipping
-                </span>
-                {` for individuals and businesses' alike. We understand the challenges of cross-border logistics and strive to provide transparent, cost-effective solutions tailored to your' unique needs.`}
-              </p>
-              <p className="text-lg leading-relaxed">
-                The May-Clan team comprises experienced professionals dedicated to ensuring your cargo reaches its destination safely and on time. We leverage a global network and local expertise to navigate the complexities of international trade regulations and transportation.
-              </p>
-              <p className="text-lg leading-relaxed font-medium text-gray-800 dark:text-gray-200">
-                Whether youre relocating, importing goods for your business, or sending personal items, May-Clan is your trusted partner every step of the way.
-              </p>
-            </div>
-          </div>
-          
-          {/* Image Placeholder - Could be an image of a ship, a team, or operations */}
-          <div className="md:w-1/2 flex justify-center">
-            <div className="bg-gray-200 dark:bg-gray-700 border-2 border-dashed border-gray-400 dark:border-gray-600 rounded-xl w-full h-96 flex items-center justify-center">
-              <span className="text-gray-500 dark:text-gray-400">Image: May-Clan Operations / Happy Customer</span>
-            </div>
-          </div>
-        </div>
-      </section>
+
+      <section
+  ref={dealsRef}
+  id="deals"
+  className="min-h-screen bg-blue-50 dark:bg-blue-900/30 w-full flex flex-col items-center scroll-mt-19 py-16"
+>
+  <div className="w-full max-w-6xl px-4">
+    <div className="text-center mb-12">
+      <h3 className="text-3xl md:text-4xl font-bold mb-6 text-gray-800 dark:text-gray-100">Special Deals & Offers</h3>
+      <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-300 max-w-4xl mx-auto">
+        Explore our latest shipping deals, discounts, and featured shipments!
+      </p>
+    </div>
+    {/* Cloudinary Gallery */}
+    <Gallery />
+  </div>
+</section>
+      
 
 {/*
         The Contact component itself is a <motion.section> with id="contact".
@@ -164,7 +148,7 @@ export default function Home() {
         For simplicity and consistency with other sections, let's wrap it,
         but the `id` and `ref` are effectively managed by the Contact component.
         Alternatively, let Contact component handle its own top-level <section> and scroll-margin.
-        The AnikaPortfolio's Contact component is already a <motion.section>, so we'll use that.
+        The Contact component is already a <motion.section>, so we'll use that.
       */}
       {/* No need for an outer section tag here, Contact.tsx provides its own */}
       <Contact />

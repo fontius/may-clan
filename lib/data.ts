@@ -9,9 +9,10 @@ export const links = [
     name: "Services",
     hash: "#services",
   },
+  
   {
-    name: "About Us", // Example, change as needed
-    hash: "#about-us",
+    name: "Deals",
+    hash: "#deals",
   },
   {
     name: "Contact",

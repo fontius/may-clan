@@ -1,4 +1,6 @@
 // File: app/layout.tsx
+
+import Script from 'next/script';
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -47,6 +49,12 @@ export default function RootLayout({
           <Header />
           {children}
         </ActiveSectionContextProvider>
+
+        <Script
+  strategy="afterInteractive"
+  src="https://product-gallery.cloudinary.com/all.js"
+  type="text/javascript"
+/>
       </body>
     </html>
   );
