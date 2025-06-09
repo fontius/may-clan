@@ -20,9 +20,9 @@ export default function Home() {
 
   const { ref: homeRef } = useSectionInView("Home", 0.5); // 0.5 threshold for home, adjust as needed
   const { ref: servicesRef } = useSectionInView("Services");
-   const { ref: dealsRef } = useSectionInView("Deals"
+   const { ref: dealsRef } = useSectionInView("Deals");
    // Ensure names match lib/data.ts
- );
+ 
 
     // const { ref: contactRef } = useSectionInView("Contact"); // contactRef is handled inside Contact.tsx nowv
 
@@ -31,7 +31,7 @@ export default function Home() {
       <section
         ref={homeRef}
         id="home"
-        className="h-screen bg-gray-50 dark:bg-gray-900 w-full flex flex-col items-center justify-center px-4 scroll-mt-19"
+        className="min-h-screen bg-gray-50 dark:bg-gray-900 w-full flex flex-col items-center justify-center px-4 scroll-mt-19"
       >
         <div className="text-center max-w-4xl">
           {/* May-Clan Logo */}
@@ -66,7 +66,7 @@ export default function Home() {
       <section
         ref={servicesRef}
         id="services"
-        className="min-h-screen bg-emerald-50 dark:bg-emerald-900/30 w-full flex flex-col items-center scroll-mt-19 py-16"
+        className="bg-emerald-50 dark:bg-emerald-900/30 w-full flex flex-col items-center scroll-mt-19 py-16 md:py-24"
       >
         <div className="w-full max-w-6xl px-4">
           {/* Services Section */}
@@ -121,7 +121,7 @@ export default function Home() {
       <section
   ref={dealsRef}
   id="deals"
-  className="min-h-screen bg-blue-50 dark:bg-blue-900/30 w-full flex flex-col items-center scroll-mt-19 py-16"
+  className="bg-blue-50 dark:bg-blue-900/30 w-full flex flex-col items-center scroll-mt-19 py-16 md:py-24"
 >
   <div className="w-full max-w-6xl px-4">
     <div className="text-center mb-12">

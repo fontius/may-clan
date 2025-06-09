@@ -74,67 +74,6 @@ tsconfig.json
 <files>
 This section contains the contents of the repository's files.
 
-<file path="components/Gallery.tsx">
-import { useEffect, useRef } from "react";
-
-declare global {
-  interface Window {
-    cloudinary?: {
-      galleryWidget: (options: Record<string, unknown>) => { render: () => void };
-    };
-  }
-}
-
-function Gallery() {
-  const containerRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    // Only run if cloudinary is loaded and ref is set
-    if (window.cloudinary && containerRef.current) {
-      window.cloudinary
-        .galleryWidget({
-          container: containerRef.current,
-          cloudName: "makeup",
-          aspectRatio: "16:9",
-          zoom: false,
-          bgColor: "#F9FAFB",
-          themeProps: {
-            primary: "#000000",
-            onPrimary: "#FFFFFF",
-          },
-          mediaAssets: [
-            {
-              tag: "web",
-              transformation: {
-                crop: "fill",
-              },
-            },
-            {
-              tag: "web-video",
-              mediaType: "video",
-            },
-          ],
-          carouselStyle: "thumbnails",
-          carouselLocation: "left",
-          viewportBreakpoints: [
-            { breakpoint: 768, carouselStyle: "thumbnails", carouselLocation: "bottom" },
-            { breakpoint: 480, carouselStyle: "indicators", carouselLocation: "bottom", navigation: "always" },
-          ],
-          loading: {
-            style: "custom",
-            url: "/images/makeup-loader.svg",
-          },
-        })
-        .render();
-    }
-  }, []);
-
-  return <div ref={containerRef} />;
-}
-
-export default Gallery;
-</file>
-
 <file path="components/SubmitBtn.tsx">
 // File: components/SubmitBtn.tsx
 "use client"; // Uses useFormStatus hook
@@ -409,6 +348,141 @@ export default config;
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }
+</file>
+
+<file path="components/Gallery.tsx">
+// File: components/Gallery.tsx
+import { useEffect, useRef } from "react";
+
+// Define a more specific type for the gallery widget instance
+interface GalleryWidgetInstance {
+  render: () => void;
+  destroy?: () => void; // Make destroy optional as it's a common cleanup method, but not guaranteed
+  // If you discover other methods or properties used by the widget,
+  // you can add them here for better type safety.
+  // Using 'unknown' for other potential properties is safer than 'any'.
+  [key: string]: unknown;
+}
+
+declare global {
+  interface Window {
+    cloudinary?: {
+      // Update the return type of galleryWidget to use our defined interface
+      galleryWidget: (options: Record<string, unknown>) => GalleryWidgetInstance;
+    };
+  }
+}
+
+function Gallery() {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  // Use the more specific type for the ref, allowing it to be null initially
+  const widgetInstanceRef = useRef<GalleryWidgetInstance | null>(null);
+
+  useEffect(() => {
+    const galleryDiv = containerRef.current;
+
+    if (!galleryDiv) {
+      console.warn("Gallery container div not yet available.");
+      return;
+    }
+
+    let intervalId: NodeJS.Timeout | null = null;
+
+    const initGallery = () => {
+      // Check if the Cloudinary script and galleryWidget function are available
+      if (window.cloudinary && typeof window.cloudinary.galleryWidget === 'function') {
+        console.log("Cloudinary script loaded. Initializing gallery widget.");
+        
+        // Clean up previous widget instance if it exists and has a destroy method
+        if (widgetInstanceRef.current && typeof widgetInstanceRef.current.destroy === 'function') {
+          try {
+            widgetInstanceRef.current.destroy(); 
+            console.log("Previous gallery widget instance destroyed.");
+          } catch (e) {
+            console.warn("Error destroying previous widget instance:", e);
+          }
+        }
+        // Ensure the container is empty before rendering a new widget
+        while (galleryDiv.firstChild) {
+          galleryDiv.removeChild(galleryDiv.firstChild);
+        }
+
+        const widget = window.cloudinary.galleryWidget({
+          container: galleryDiv,
+          cloudName: "dsmgnh5rj", // IMPORTANT: Replace with your actual Cloudinary cloud name
+          aspectRatio: "16:9",
+          zoom: false,
+          bgColor: "#F9FAFB",
+          themeProps: {
+            primary: "#000000",
+            onPrimary: "#FFFFFF",
+          },
+          mediaAssets: [
+            {
+              tag: "deals", // IMPORTANT: Ensure 'deals' tag exists in your Cloudinary library and has assets
+              transformation: {
+                crop: "fill",
+              },
+            },
+            {
+              tag: "web-video", // IMPORTANT: Ensure 'web-video' tag exists and has video assets
+              mediaType: "video",
+            },
+          ],
+          carouselStyle: "thumbnails",
+          carouselLocation: "left",
+          viewportBreakpoints: [
+            { breakpoint: 768, carouselStyle: "thumbnails", carouselLocation: "bottom" },
+            { breakpoint: 480, carouselStyle: "indicators", carouselLocation: "bottom", navigation: "always" },
+          ],
+          // loading: { // The file /images/makeup-loader.svg was not found in your project structure.
+          //   style: "custom", // If you have this SVG, place it in `public/images/makeup-loader.svg` and uncomment.
+          //   url: "/images/makeup-loader.svg", 
+          // },
+        });
+        
+        widget.render();
+        widgetInstanceRef.current = widget; // Store the new widget instance
+
+        if (intervalId) {
+          clearInterval(intervalId);
+          intervalId = null;
+        }
+        return true; // Initialization successful
+      }
+      return false; // Cloudinary not ready
+    };
+
+    if (!initGallery()) {
+      console.log("Cloudinary script not ready, starting poll mechanism...");
+      intervalId = setInterval(() => {
+        if (initGallery()) {
+          console.log("Cloudinary script became available via polling. Widget initialized.");
+        }
+      }, 500); // Poll every 500ms
+    }
+
+    // Cleanup function for when the component unmounts
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+      if (widgetInstanceRef.current && typeof widgetInstanceRef.current.destroy === 'function') {
+        console.log("Destroying Cloudinary gallery widget instance on unmount.");
+        try {
+          widgetInstanceRef.current.destroy();
+        } catch (e) {
+            console.warn("Error destroying widget instance on unmount:", e);
+        }
+      }
+      widgetInstanceRef.current = null;
+    };
+  }, []); // Empty dependency array
+
+  return <div ref={containerRef} style={{ width: "100%", minHeight: "400px" }} />;
+}
+
+export default Gallery;
 </file>
 
 <file path="components/Header.tsx">
@@ -721,31 +795,6 @@ export default function Contact() {
 }
 </file>
 
-<file path="lib/data.ts">
-export const links = [
-  {
-    name: "Home",
-    hash: "#home",
-  },
-  {
-    name: "Services",
-    hash: "#services",
-  },
-  {
-    name: "About Us", 
-    hash: "#about-us",
-  },
-  {
-    name: "Deals",
-    hash: "#deals",
-  },
-  {
-    name: "Contact",
-    hash: "#contact",
-  },
-] as const; // "as const" is important for type inference
-</file>
-
 <file path="lib/types.ts">
 // File: lib/types.ts
 import { links } from "./data";
@@ -801,6 +850,28 @@ body {
 .animate-fadeIn {
   animation: fadeIn 1s ease-out;
 }
+</file>
+
+<file path="lib/data.ts">
+export const links = [
+  {
+    name: "Home",
+    hash: "#home",
+  },
+  {
+    name: "Services",
+    hash: "#services",
+  },
+  
+  {
+    name: "Deals",
+    hash: "#deals",
+  },
+  {
+    name: "Contact",
+    hash: "#contact",
+  },
+] as const; // "as const" is important for type inference
 </file>
 
 <file path="package.json">
@@ -930,8 +1001,9 @@ export default function Home() {
 
   const { ref: homeRef } = useSectionInView("Home", 0.5); // 0.5 threshold for home, adjust as needed
   const { ref: servicesRef } = useSectionInView("Services");
-  const { ref: aboutUsRef } = useSectionInView("About Us"); // Ensure names match lib/data.ts
-  const { ref: dealsRef } = useSectionInView("Deals");
+   const { ref: dealsRef } = useSectionInView("Deals"
+   // Ensure names match lib/data.ts
+ );
 
     // const { ref: contactRef } = useSectionInView("Contact"); // contactRef is handled inside Contact.tsx nowv
 
@@ -1026,43 +1098,6 @@ export default function Home() {
         </div>
       </section>
 
-      <section 
-        ref={aboutUsRef}
-        id="about-us"
-        className={`min-h-screen bg-amber-50 dark:bg-amber-900/30 w-full flex items-center justify-center scroll-mt-19 py-16 px-4`}
-      >
-        <div className="max-w-6xl w-full flex flex-col md:flex-row items-center gap-12">
-          {/* Text Content */}
-          <div className="md:w-1/2">
-            <h2 className="text-3xl md:text-4xl font-bold mb-8 text-gray-800 dark:text-gray-100">About May-Clan</h2>
-            <div className="space-y-6 text-gray-700 dark:text-gray-300">
-              <p className="text-lg leading-relaxed">
-                May-Clan is a premier shipping and logistics company specializing in connecting Canada and Nigeria. With years of experience, weve built a reputation for reliability, efficiency, and customer-centric service.
-              </p>
-              <p className="text-lg leading-relaxed">
-                {`Our mission is to `}
-                <span className="font-semibold text-sky-700 dark:text-sky-400">
-                  simplify international shipping
-                </span>
-                {` for individuals and businesses' alike. We understand the challenges of cross-border logistics and strive to provide transparent, cost-effective solutions tailored to your' unique needs.`}
-              </p>
-              <p className="text-lg leading-relaxed">
-                The May-Clan team comprises experienced professionals dedicated to ensuring your cargo reaches its destination safely and on time. We leverage a global network and local expertise to navigate the complexities of international trade regulations and transportation.
-              </p>
-              <p className="text-lg leading-relaxed font-medium text-gray-800 dark:text-gray-200">
-                Whether youre relocating, importing goods for your business, or sending personal items, May-Clan is your trusted partner every step of the way.
-              </p>
-            </div>
-          </div>
-          
-          {/* Image Placeholder - Could be an image of a ship, a team, or operations */}
-          <div className="md:w-1/2 flex justify-center">
-            <div className="bg-gray-200 dark:bg-gray-700 border-2 border-dashed border-gray-400 dark:border-gray-600 rounded-xl w-full h-96 flex items-center justify-center">
-              <span className="text-gray-500 dark:text-gray-400">Image: May-Clan Operations / Happy Customer</span>
-            </div>
-          </div>
-        </div>
-      </section>
 
       <section
   ref={dealsRef}

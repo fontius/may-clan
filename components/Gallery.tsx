@@ -56,7 +56,7 @@ function Gallery() {
 
         const widget = window.cloudinary.galleryWidget({
           container: galleryDiv,
-          cloudName: "makeup", // IMPORTANT: Replace with your actual Cloudinary cloud name
+          cloudName: "dsmgnh5rj", // IMPORTANT: Replace with your actual Cloudinary cloud name
           aspectRatio: "16:9",
           zoom: false,
           bgColor: "#F9FAFB",
@@ -66,7 +66,7 @@ function Gallery() {
           },
           mediaAssets: [
             {
-              tag: "web", // IMPORTANT: Ensure 'web' tag exists in your Cloudinary library and has assets
+              tag: "deals", // IMPORTANT: Ensure 'deals' tag exists in your Cloudinary library and has assets
               transformation: {
                 crop: "fill",
               },
