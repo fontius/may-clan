@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     description: "Reliable vehicle shipping and freight forwarding services between Canada and Nigeria",
     images: [
       {
-        url: '/og/may-clan-og-large.png',
+        url: '/og/mayclan-og.webp',
         width: 1200,
         height: 630,
       }
