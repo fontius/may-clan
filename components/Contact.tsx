@@ -44,7 +44,7 @@ export default function Contact() {
     <motion.section
       id="contact"
       ref={ref}
-      className="mt-20 sm:mt-28 mb-20 sm:mb-28 w-[min(100%,38rem)] text-center bg-gray-50 dark:bg-gray-900 "
+      className="bg-white/90 dark:bg-gray-900/30 mt-20 sm:mt-28 mb-20 sm:mb-28 w-[min(100%,38rem)] text-center"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 1 }}
@@ -56,7 +56,7 @@ export default function Contact() {
         className="mb-8"
       >
         <h2 className="text-3xl font-bold">Contact May-Clan</h2>
-        <p className="text-gray-500 -mt-2 dark:text-gray-400 text-[0.9rem] font-medium">
+        <p className="text-gray-500  dark:text-gray-400 text-[0.9rem] font-medium">
           Your trusted shipping partner between Canada and Nigeria
         </p>
       </motion.div>

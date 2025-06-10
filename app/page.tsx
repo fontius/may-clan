@@ -5,18 +5,12 @@ import { useSectionInView } from "@/lib/hooks"; // Import the hook
 import Contact from "@/components/Contact";
 import Gallery from "@/components/Gallery";
 import Image from 'next/image';
+import AnimatedLogisticsBackground from "@/components/AnimatedLogisticsBackground";
+
 
 
 export default function Home() {
-  // --- Data Flow: Connecting Sections to Context ---
-  // For each section, `useSectionInView` is called:
-  // a. It takes the `SectionName` (e.g., "Home", "Services") as an argument.
-  // b. It returns a `ref` object.
-  // c. This `ref` is attached to the corresponding `<section>` element.
-  // d. When the section scrolls into view (based on the threshold in the hook),
-  //    the hook's internal `useEffect` calls `setActiveSection` (from the context),
-  //    updating the global state. This, in turn, causes the `Header` to re-render
-  //    and highlight the correct link.
+
 
   const { ref: homeRef } = useSectionInView("Home", 0.5); // 0.5 threshold for home, adjust as needed
   const { ref: servicesRef } = useSectionInView("Services");
@@ -31,9 +25,12 @@ export default function Home() {
       <section
         ref={homeRef}
         id="home"
-        className="min-h-screen bg-gray-50 dark:bg-gray-900 w-full flex flex-col items-center justify-center px-4 scroll-mt-19"
+        className="h-screen bg-gray-50 dark:bg-gray-900 w-full flex flex-col items-center justify-center px-4 scroll-mt-19 relative overflow-hidden"
       >
-        <div className="text-center max-w-4xl">
+        
+
+        <div className="text-center max-w-4xl z-10">
+
           {/* May-Clan Logo */}
           <div className="mb-8 flex flex-col items-center">
             <Image 
@@ -46,7 +43,7 @@ export default function Home() {
 
             {/* Company Name and Tagline with fluid typography */}
             <div className="mb-8">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-3 text-gray-800 dark:text-gray-100">May-Clan</h1>
+              <AnimatedLogisticsBackground />
               <h2 className="text-xl md:text-2xl font-semibold mb-4 text-sky-700 dark:text-sky-400">Shipping & Logistics</h2>
               <p className="text-base md:text-lg font-medium text-gray-700 dark:text-gray-300">Your Trusted Partner for Canada-Nigeria Shipments.</p>
             </div>
