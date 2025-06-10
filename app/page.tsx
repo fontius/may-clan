@@ -66,7 +66,7 @@ export default function Home() {
       <section
         ref={servicesRef}
         id="services"
-        className="bg-emerald-50 dark:bg-emerald-900/30 w-full flex flex-col items-center scroll-mt-19 py-16 md:py-24"
+        className="bg-gray-50 dark:bg-gray-900/30 w-full flex flex-col items-center scroll-mt-19 py-16 md:py-24"
       >
         <div className="w-full max-w-6xl px-4">
           {/* Services Section */}
@@ -121,7 +121,7 @@ export default function Home() {
       <section
   ref={dealsRef}
   id="deals"
-  className="bg-blue-50 dark:bg-blue-900/30 w-full flex flex-col items-center scroll-mt-19 py-16 md:py-24"
+  className="bg-gray-50 dark:bg-gray-900/30 w-full flex flex-col items-center scroll-mt-19 py-16 md:py-24"
 >
   <div className="w-full max-w-6xl px-4">
     <div className="text-center mb-12">
