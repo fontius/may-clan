@@ -13,9 +13,9 @@ export default function Home() {
 
 
   const { ref: homeRef } = useSectionInView("Home", 0.5); // 0.5 threshold for home, adjust as needed
+  const { ref: aboutRef } = useSectionInView("About Us");
   const { ref: servicesRef } = useSectionInView("Services");
-   const { ref: dealsRef } = useSectionInView("Deals");
-   // Ensure names match lib/data.ts
+  // Ensure names match lib/data.ts
  
 
     // const { ref: contactRef } = useSectionInView("Contact"); // contactRef is handled inside Contact.tsx nowv
@@ -44,17 +44,46 @@ export default function Home() {
             {/* Company Name and Tagline with fluid typography */}
             <div className="mb-8">
               <AnimatedLogisticsBackground />
-              <h2 className="text-xl md:text-2xl font-semibold mb-4 text-sky-700 dark:text-sky-400">Shipping & Logistics</h2>
-              <p className="text-base md:text-lg font-medium text-gray-700 dark:text-gray-300">Your Trusted Partner for Canada-Nigeria Shipments.</p>
+              <p className="text-base md:text-lg font-medium mb-2 text-sky-700 dark:text-sky-400">Procurement &gt; Logistics &gt; Delivery.</p>
+              <h2 className="text-base md:text-lg font-semibold text-gray-700 dark:text-gray-300">Your Trusted Partner for Outsourcing / Order Processing / Cartage / Shipping &amp; Delivery services.</h2>
             </div>
           </div>
 
           {/* Introductory Content with fade-in */}
           <div className="space-y-6 animate-fadeIn">
-            <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 dark:text-gray-100">Seamless Shipping, Delivered.</h3>
+            <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 dark:text-gray-100">Seamless Services &amp; Delivery.</h3>
             <p className="text-base md:text-lg leading-relaxed text-gray-600 dark:text-gray-400">
-              May-Clan offers comprehensive and reliable vehicle and freight forwarding services from Canada to Nigeria. 
-              We handle your shipments with care, ensuring timely and secure delivery.
+              May-Clan offers comprehensive and reliable cargo handling and freight forwarding services globally.
+              We facilitate your consignments with utmost diligence &amp; timeliness.
+            </p>
+            <p className="text-base md:text-lg leading-relaxed text-gray-600 dark:text-gray-400">
+              <span className="font-semibold text-sky-700 dark:text-sky-400">Commitment:</span>{" "}
+              At May-Clan, we provide a suite of specialized logistics solutions designed to effortlessly make
+              cargo handling &amp; international shipping seamless &amp; efficient.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section
+        ref={aboutRef}
+        id="about"
+        className="bg-white dark:bg-gray-900 w-full flex flex-col items-center scroll-mt-19 py-16 md:py-24"
+      >
+        <div className="w-full max-w-4xl px-4 text-center">
+          <h3 className="text-3xl md:text-4xl font-bold mb-6 text-gray-800 dark:text-gray-100">About Us</h3>
+          <div className="space-y-6 text-lg leading-relaxed text-gray-700 dark:text-gray-300">
+            <p>
+              May-Clan is a business conceived from the desire to make a difference. The company was built solely on
+              the principle of integrity hence our unwavering disposition to absolute professionalism.
+            </p>
+            <p>
+              Since its inception in 2008, May-Clan has evolved into a reputable service provider synonymous with
+              quality and efficient services.
+            </p>
+            <p>
+              With an affiliate team of dedicated professionals, May-Clan remains innovative and dynamic in our quest
+              to safely get your goods to your door steps and promote your best interests…
             </p>
           </div>
         </div>
@@ -65,59 +94,43 @@ export default function Home() {
         id="services"
         className="bg-gray-50 dark:bg-gray-900/30 w-full flex flex-col items-center scroll-mt-19 py-16 md:py-24"
       >
-        <div className="w-full max-w-6xl px-4">
+        <div className="w-full max-w-4xl px-4">
           {/* Services Section */}
-          <div className="mb-16">
-            <div className="text-center mb-12">
-              <h3 className="text-3xl md:text-4xl font-bold mb-6 text-gray-800 dark:text-gray-100">Our Core Shipping Services</h3>
-              <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-300 max-w-4xl mx-auto">
-                At May-Clan, we provide a suite of specialized logistics solutions designed to make shipping between Canada and Nigeria
-                effortless and efficient. Whether its your car, commercial goods, or personal items, weve got you covered.
+          <div className="text-center mb-12">
+            <h3 className="text-3xl md:text-4xl font-bold mb-6 text-gray-800 dark:text-gray-100">Services</h3>
+            <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-300 max-w-4xl mx-auto">
+              We render a broad range of services including out-sourcing of heavy equipment / machineries / trucks &amp;
+              automobiles, parts and general cargo. We facilitate cartage, shipping and delivery services to your
+              doorsteps globally (Land, Air or Sea freight) via Ro-Ro or containerized shipment.
+            </p>
+          </div>
+
+          <div className="space-y-6 text-lg leading-relaxed text-gray-700 dark:text-gray-300">
+            <p>
+              We ensure safe packaging / labelling / loading and handling of relevant import / export.
+            </p>
+            <p>
+              Our affiliate agents manage all international freight forwarding / customs brokerage &amp; solutions.
+            </p>
+
+            <div className="pt-4">
+              <h4 className="text-2xl font-bold mb-4 text-sky-700 dark:text-sky-400">Warehousing &amp; Real-Time Tracking</h4>
+              <p>
+                Secure warehousing options available internationally. Plus, stay updated with real-time tracking of
+                your shipments from origin to final destination.
               </p>
             </div>
 
-            {/* Services Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {/* Card 1: Vehicle Shipping */}
-              <div className="bg-white dark:bg-gray-800 rounded-xl p-7 shadow-lg hover:shadow-xl transition-all">
-                <h4 className="text-xl font-bold mb-4 text-sky-700 dark:text-sky-400">Vehicle Shipping (Canada to Nigeria)</h4>
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                  Specializing in RoRo (Roll-on/Roll-off) and containerized shipping for cars, trucks, and heavy machinery. We ensure safe transit and handle all export/import documentation.
-                </p>
-              </div>
-
-              {/* Card 2: Freight Forwarding */}
-              <div className="bg-white dark:bg-gray-800 rounded-xl p-7 shadow-lg hover:shadow-xl transition-all">
-                <h4 className="text-xl font-bold mb-4 text-sky-700 dark:text-sky-400">Freight Forwarding</h4>
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                  Comprehensive air and sea freight solutions for commercial cargo and personal effects. We offer door-to-door, port-to-port services, tailored to your budget and timeline.
-                </p>
-              </div>
-
-              {/* Card 3: Customs Clearance */}
-              <div className="bg-white dark:bg-gray-800 rounded-xl p-7 shadow-lg hover:shadow-xl transition-all">
-                <h4 className="text-xl font-bold mb-4 text-sky-700 dark:text-sky-400">Customs Clearance & Documentation</h4>
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                  Navigating customs can be complex. Our experts manage all customs brokerage and documentation requirements in Canada and Nigeria, ensuring a smooth clearance process.
-                </p>
-              </div>
-
-              {/* Card 4: Logistics & Tracking */}
-              <div className="bg-white dark:bg-gray-800 rounded-xl p-7 shadow-lg hover:shadow-xl transition-all">
-                <h4 className="text-xl font-bold mb-4 text-sky-700 dark:text-sky-400">Warehousing & Real-Time Tracking</h4>
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                  Secure warehousing options available in both Canada and Nigeria. Plus, stay updated with real-time tracking of your shipments from origin to final destination.
-                </p>
-              </div>
-            </div>
+            <p className="pt-6 text-xl md:text-2xl font-semibold italic text-sky-700 dark:text-sky-400">
+               Representing your best interests
+            </p>
           </div>
         </div>
       </section>
 
 
       <section
-  ref={dealsRef}
-  id="deals"
+        id="deals"
   className="bg-gray-50 dark:bg-gray-900/30 w-full flex flex-col items-center scroll-mt-19 py-16 md:py-24"
 >
   <div className="w-full max-w-6xl px-4">
