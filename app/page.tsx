@@ -58,7 +58,7 @@ export default function Home() {
             </p>
             <p className="text-base md:text-lg leading-relaxed text-gray-600 dark:text-gray-400">
               <span className="font-semibold text-sky-700 dark:text-sky-400">Commitment:</span>{" "}
-              At May-Clan, we provide a suite of specialized logistics solutions designed to effortlessly make
+              At May-Clan,  we provide a suite of specialized logistics solutions designed to effortlessly make
               cargo handling &amp; international shipping seamless &amp; efficient.
             </p>
           </div>
