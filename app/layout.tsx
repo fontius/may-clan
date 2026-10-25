@@ -12,11 +12,11 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "May-Clan | Canada-Nigeria Shipping & Logistics",
+  title: "May-Clan | Glodal Shipping & Logistics",
   description: "May-Clan offers comprehensive vehicle shipping, freight forwarding, and customs clearance services between Canada and Nigeria",
-  keywords: ["Canada to Nigeria shipping", "vehicle shipping", "freight forwarding", "customs clearance", "logistics", "international shipping"],
+  keywords: ["Global shipping", "vehicle shipping", "freight forwarding", "customs clearance", "logistics", "international shipping"],
   openGraph: {
-    title: "May-Clan | Canada-Nigeria Shipping & Logistics",
+    title: "May-Clan | Global Shipping & Logistics",
     description: "Reliable vehicle shipping and freight forwarding services between Canada and Nigeria",
     images: [
       {
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: "May-Clan | Canada-Nigeria Shipping & Logistics",
+    title: "May-Clan | Global Shipping & Logistics",
     description: "Reliable vehicle shipping and freight forwarding services between Canada and Nigeria",
     images: ['/og/may-clan-og-large.png'],
   }

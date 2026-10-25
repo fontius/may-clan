@@ -57,7 +57,7 @@ export default function Contact() {
       >
         <h2 className="text-3xl font-bold">Contact May-Clan</h2>
         <p className="text-gray-500  dark:text-gray-400 text-[0.9rem] font-medium">
-          Your trusted shipping partner between Canada and Nigeria
+          Your trusted global shipping partner 
         </p>
       </motion.div>
 
@@ -103,9 +103,9 @@ export default function Contact() {
       {/* Contact info footer */}
       <footer className="mt-8 sticky bottom-0 bg-white/90 dark:bg-gray-950/90 backdrop-blur-sm py-4 border-t border-gray-200 dark:border-gray-700 sm:static">
         <div className="container mx-auto px-4 text-center">
-          <div className="font-medium text-lg">Canada Office: +1 (416) 555-0199</div>
+          <div className="font-medium text-lg">Canada Office: +1 (416) 455-7519</div>
           <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-            Nigeria Office: +234 (0) 812 345 6789
+            
           </div>
           <div className="text-xs text-gray-500 dark:text-gray-500 mt-2">
             <p>Email: contact@may-clan.com</p>
