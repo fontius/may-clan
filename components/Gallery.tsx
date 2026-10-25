@@ -1,20 +1,19 @@
 // File: components/Gallery.tsx
-import { useEffect, useRef } from "react";
+"use client";
+
+import Script from "next/script";
+import { useCallback, useEffect, useRef } from "react";
 
 // Define a more specific type for the gallery widget instance
 interface GalleryWidgetInstance {
   render: () => void;
-  destroy?: () => void; // Make destroy optional as it's a common cleanup method, but not guaranteed
-  // If you discover other methods or properties used by the widget,
-  // you can add them here for better type safety.
-  // Using 'unknown' for other potential properties is safer than 'any'.
+  destroy?: () => void;
   [key: string]: unknown;
 }
 
 declare global {
   interface Window {
     cloudinary?: {
-      // Update the return type of galleryWidget to use our defined interface
       galleryWidget: (options: Record<string, unknown>) => GalleryWidgetInstance;
     };
   }
@@ -22,111 +21,89 @@ declare global {
 
 function Gallery() {
   const containerRef = useRef<HTMLDivElement | null>(null);
-  // Use the more specific type for the ref, allowing it to be null initially
   const widgetInstanceRef = useRef<GalleryWidgetInstance | null>(null);
 
-  useEffect(() => {
+  const initGallery = useCallback(() => {
     const galleryDiv = containerRef.current;
+    if (!galleryDiv) return;
+    if (!(window.cloudinary && typeof window.cloudinary.galleryWidget === "function")) return;
 
-    if (!galleryDiv) {
-      console.warn("Gallery container div not yet available.");
-      return;
+    // Clean up any previous widget instance before re-rendering
+    if (widgetInstanceRef.current && typeof widgetInstanceRef.current.destroy === "function") {
+      try {
+        widgetInstanceRef.current.destroy();
+      } catch (e) {
+        console.warn("Error destroying previous gallery widget instance:", e);
+      }
     }
 
-    let intervalId: NodeJS.Timeout | null = null;
+    // Ensure the container is empty before rendering a new widget
+    while (galleryDiv.firstChild) {
+      galleryDiv.removeChild(galleryDiv.firstChild);
+    }
 
-    const initGallery = () => {
-      // Check if the Cloudinary script and galleryWidget function are available
-      if (window.cloudinary && typeof window.cloudinary.galleryWidget === 'function') {
-        console.log("Cloudinary script loaded. Initializing gallery widget.");
-        
-        // Clean up previous widget instance if it exists and has a destroy method
-        if (widgetInstanceRef.current && typeof widgetInstanceRef.current.destroy === 'function') {
-          try {
-            widgetInstanceRef.current.destroy(); 
-            console.log("Previous gallery widget instance destroyed.");
-          } catch (e) {
-            console.warn("Error destroying previous widget instance:", e);
-          }
-        }
-        // Ensure the container is empty before rendering a new widget
-        while (galleryDiv.firstChild) {
-          galleryDiv.removeChild(galleryDiv.firstChild);
-        }
-
-        const widget = window.cloudinary.galleryWidget({
-          container: galleryDiv,
-          cloudName: "dsmgnh5rj", // IMPORTANT: Replace with your actual Cloudinary cloud name
-          aspectRatio: "16:9",
-          zoom: false,
-          bgColor: "#F9FAFB",
-          themeProps: {
-            primary: "#000000",
-            onPrimary: "#FFFFFF",
+    const widget = window.cloudinary.galleryWidget({
+      container: galleryDiv,
+      cloudName: "dsmgnh5rj",
+      aspectRatio: "16:9",
+      zoom: false,
+      bgColor: "#F9FAFB",
+      themeProps: {
+        primary: "#000000",
+        onPrimary: "#FFFFFF",
+      },
+      mediaAssets: [
+        {
+          tag: "deals",
+          transformation: {
+            crop: "fill",
           },
-          mediaAssets: [
-            {
-              tag: "deals", // IMPORTANT: Ensure 'deals' tag exists in your Cloudinary library and has assets
-              transformation: {
-                crop: "fill",
-              },
-            },
-            {
-              tag: "web-video", // IMPORTANT: Ensure 'web-video' tag exists and has video assets
-              mediaType: "video",
-            },
-          ],
-          carouselStyle: "thumbnails",
-          carouselLocation: "left",
-          viewportBreakpoints: [
-            { breakpoint: 768, carouselStyle: "thumbnails", carouselLocation: "bottom" },
-            { breakpoint: 480, carouselStyle: "indicators", carouselLocation: "bottom", navigation: "always" },
-          ],
-          // loading: { // The file /images/makeup-loader.svg was not found in your project structure.
-          //   style: "custom", // If you have this SVG, place it in `public/images/makeup-loader.svg` and uncomment.
-          //   url: "/images/makeup-loader.svg", 
-          // },
-        });
-        
-        widget.render();
-        widgetInstanceRef.current = widget; // Store the new widget instance
+        },
+      ],
+      carouselStyle: "thumbnails",
+      carouselLocation: "left",
+      viewportBreakpoints: [
+        { breakpoint: 768, carouselStyle: "thumbnails", carouselLocation: "bottom" },
+        { breakpoint: 480, carouselStyle: "indicators", carouselLocation: "bottom", navigation: "always" },
+      ],
+    });
 
-        if (intervalId) {
-          clearInterval(intervalId);
-          intervalId = null;
-        }
-        return true; // Initialization successful
-      }
-      return false; // Cloudinary not ready
-    };
+    widget.render();
+    widgetInstanceRef.current = widget;
+  }, []);
 
-    if (!initGallery()) {
-      console.log("Cloudinary script not ready, starting poll mechanism...");
-      intervalId = setInterval(() => {
-        if (initGallery()) {
-          console.log("Cloudinary script became available via polling. Widget initialized.");
-        }
-      }, 500); // Poll every 500ms
+  // Initialize once the Cloudinary script finished loading.
+  // Also covers StrictMode re-mounts / a cached script from a previous page load.
+  useEffect(() => {
+    if (window.cloudinary && typeof window.cloudinary.galleryWidget === "function") {
+      initGallery();
     }
+  }, [initGallery]);
 
-    // Cleanup function for when the component unmounts
+  // Cleanup on unmount
+  useEffect(() => {
     return () => {
-      if (intervalId) {
-        clearInterval(intervalId);
-      }
-      if (widgetInstanceRef.current && typeof widgetInstanceRef.current.destroy === 'function') {
-        console.log("Destroying Cloudinary gallery widget instance on unmount.");
+      if (widgetInstanceRef.current && typeof widgetInstanceRef.current.destroy === "function") {
         try {
           widgetInstanceRef.current.destroy();
         } catch (e) {
-            console.warn("Error destroying widget instance on unmount:", e);
+          console.warn("Error destroying widget instance on unmount:", e);
         }
       }
       widgetInstanceRef.current = null;
     };
-  }, []); // Empty dependency array
+  }, []);
 
-  return <div ref={containerRef} style={{ width: "100%", minHeight: "400px" }} />;
+  return (
+    <>
+      <div ref={containerRef} style={{ width: "100%", minHeight: "400px" }} />
+      <Script
+        src="https://product-gallery.cloudinary.com/all.js"
+        strategy="afterInteractive"
+        onLoad={initGallery}
+      />
+    </>
+  );
 }
 
 export default Gallery;

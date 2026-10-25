@@ -15,6 +15,7 @@ export default function Home() {
   const { ref: homeRef } = useSectionInView("Home", 0.5); // 0.5 threshold for home, adjust as needed
   const { ref: aboutRef } = useSectionInView("About Us");
   const { ref: servicesRef } = useSectionInView("Services");
+  const { ref: dealsRef } = useSectionInView("Deals");
   // Ensure names match lib/data.ts
  
 
@@ -131,6 +132,7 @@ export default function Home() {
 
       <section
         id="deals"
+        ref={dealsRef}
   className="bg-gray-50 dark:bg-gray-900/30 w-full flex flex-col items-center scroll-mt-19 py-16 md:py-24"
 >
   <div className="w-full max-w-6xl px-4">
