@@ -103,12 +103,13 @@ export default function Contact() {
       {/* Contact info footer */}
       <footer className="mt-8 sticky bottom-0 bg-white/90 dark:bg-gray-950/90 backdrop-blur-sm py-4 border-t border-gray-200 dark:border-gray-700 sm:static">
         <div className="container mx-auto px-4 text-center">
-          <div className="font-medium text-lg">Canada Office: +1 (416) 455-7519</div>
+          <div className="font-medium text-lg">Phone:  1 (647) 832 3937</div>
+          <div className="font-medium text-lg">Direct: 1 (416) 455 7519</div>
           <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">
             
           </div>
           <div className="text-xs text-gray-500 dark:text-gray-500 mt-2">
-            <p>Email: contact@may-clan.com</p>
+            <p>Email: info@may-clan.com</p>
             <p>24/7 Customer Support Available</p>
           </div>
         </div>

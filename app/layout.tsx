@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   keywords: ["Global shipping", "vehicle shipping", "freight forwarding", "customs clearance", "logistics", "international shipping"],
   openGraph: {
     title: "May-Clan | Global Shipping & Logistics",
-    description: "Reliable vehicle shipping and freight forwarding services between Canada and Nigeria",
+    description: "Reliable vehicle shipping and freight forwarding services globally",
     images: [
       {
         url: '/og/mayclan-og.webp',
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: "May-Clan | Global Shipping & Logistics",
-    description: "Reliable vehicle shipping and freight forwarding services between Canada and Nigeria",
+    description: "Reliable vehicle shipping and freight forwarding services globally",
     images: ['/og/may-clan-og-large.png'],
   }
 };

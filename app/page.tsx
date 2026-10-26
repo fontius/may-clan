@@ -106,12 +106,12 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="space-y-6 text-lg leading-relaxed text-gray-700 dark:text-gray-300">
+          <div className="space-y-6 text-lg leading-relaxed text-gray-700 dark:text-gray-300 text-center">
             <p>
-              We ensure safe packaging / labelling / loading and handling of relevant import / export.
+              We ensure safe packaging / labelling / loading and handling of relevant import / export cargo.
             </p>
             <p>
-              Our affiliate agents manage all international freight forwarding / customs brokerage &amp; solutions.
+              Our affiliate agents manage all international freight forwarding / customs brokerage solutions &amp; clearance.
             </p>
 
             <div className="pt-4">
@@ -122,8 +122,8 @@ export default function Home() {
               </p>
             </div>
 
-            <p className="pt-6 text-xl md:text-2xl font-semibold italic text-sky-700 dark:text-sky-400">
-               Representing your best interests
+            <p className="text-xl md:text-2xl font-semibold italic text-sky-700 dark:text-sky-400">
+              Representing your best interests
             </p>
           </div>
         </div>
@@ -137,7 +137,8 @@ export default function Home() {
 >
   <div className="w-full max-w-6xl px-4">
     <div className="text-center mb-12">
-      <h3 className="text-3xl md:text-4xl font-bold mb-6 text-gray-800 dark:text-gray-100">Special Deals & Offers</h3>
+      <h3 className="text-3xl md:text-4xl font-bold mb-6 text-gray-800 dark:text-gray-100">Specialized Cargo Handling & Cartage
+</h3>
       <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-300 max-w-4xl mx-auto">
         Explore our latest shipping deals, discounts, and featured shipments!
       </p>
