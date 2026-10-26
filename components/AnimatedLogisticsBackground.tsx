@@ -3,24 +3,65 @@
 
 import { motion } from "framer-motion";
 import { Truck, Ship, Package } from "lucide-react"; // Make sure you have lucide-react installed: npm install lucide-react
+import { useEffect, useRef, useState } from "react";
+
+type Direction = "ltr" | "rtl";
+type Variant = "hero" | "section";
 
 interface AnimatedLogisticsBackgroundProps {
-  // You can add props here if you need to customize it later,
-  // e.g., element counts, speeds, colors. For now, we'll keep it simple.
   className?: string;
+  /** Which direction the repeating elements travel. Defaults to "ltr" (left to right). */
+  direction?: Direction;
+  /** "hero" = full-viewport layer (original default); "section" = lighter, container-relative layer. */
+  variant?: Variant;
+  /** Overrides the wrapper's z-index layer (defaults to "-z-10"). */
+  layerClassName?: string;
 }
 
-const AnimatedLogisticsBackground: React.FC<AnimatedLogisticsBackgroundProps> = ({ className }) => {
+const AnimatedLogisticsBackground: React.FC<AnimatedLogisticsBackgroundProps> = ({
+  className,
+  direction = "ltr",
+  variant = "hero",
+  layerClassName = "-z-10",
+}) => {
+  const rtl = direction === "rtl";
+
+  // Measure the layer so "section" elements can travel across the panel width
+  // with transform-only animation (`x` percentages are element-relative).
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = useState(0);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const update = () => setContainerWidth(el.clientWidth);
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  // Full-viewport travel for the hero (original behavior, unchanged for "ltr").
+  const xFrom = (n: number): number | string => (rtl ? `calc(100vw + ${n}px)` : -n);
+  const xTo = (n: number): number | string => (rtl ? -n : `calc(100vw + ${n}px)`);
+
+  // Container-relative travel for the "section" variant.
+  const secFrom = (n: number): string => (rtl ? `${containerWidth + n}px` : `${-n}px`);
+  const secTo = (n: number): string => (rtl ? `${-n}px` : `${containerWidth + n}px`);
+
   return (
     <div
-      className={`absolute inset-0 -z-10 pointer-events-none overflow-hidden ${className || ''}`}
-      aria-hidden="true" // Decorative
+      ref={containerRef}
+      className={`absolute inset-0 pointer-events-none overflow-hidden ${layerClassName} ${className || ""}`}
+      aria-hidden="true"
     >
+      {variant === "hero" ? (
+        <>
       {/* Moving Ships */}
       <motion.div
         className="absolute top-20 text-blue-200 dark:text-blue-700/50" // Added dark mode variant
-        initial={{ x: -100 }}
-        animate={{ x: "calc(100vw + 100px)" }}
+        initial={{ x: xFrom(100) }}
+        animate={{ x: xTo(100) }}
         transition={{
           duration: 45, // Slower for background
           repeat: Infinity, // Use Infinity for clarity
@@ -32,8 +73,8 @@ const AnimatedLogisticsBackground: React.FC<AnimatedLogisticsBackgroundProps> = 
 
       <motion.div
         className="absolute top-32 text-blue-300 dark:text-blue-600/50"
-        initial={{ x: -80 }}
-        animate={{ x: "calc(100vw + 80px)" }}
+        initial={{ x: xFrom(80) }}
+        animate={{ x: xTo(80) }}
         transition={{
           duration: 55, // Slower
           repeat: Infinity,
@@ -47,8 +88,8 @@ const AnimatedLogisticsBackground: React.FC<AnimatedLogisticsBackgroundProps> = 
       {/* Moving Containers (Simplified as colored divs) */}
       <motion.div
         className="absolute bottom-40 flex space-x-4"
-        initial={{ x: -200 }}
-        animate={{ x: "calc(100vw + 200px)" }}
+        initial={{ x: xFrom(200) }}
+        animate={{ x: xTo(200) }}
         transition={{
           duration: 40, // Slower
           repeat: Infinity,
@@ -62,8 +103,8 @@ const AnimatedLogisticsBackground: React.FC<AnimatedLogisticsBackgroundProps> = 
 
       <motion.div
         className="absolute bottom-28 flex space-x-4"
-        initial={{ x: -150 }}
-        animate={{ x: "calc(100vw + 150px)" }}
+        initial={{ x: xFrom(150) }}
+        animate={{ x: xTo(150) }}
         transition={{
           duration: 38, // Slower
           repeat: Infinity,
@@ -78,8 +119,8 @@ const AnimatedLogisticsBackground: React.FC<AnimatedLogisticsBackgroundProps> = 
       {/* Moving Trucks */}
       <motion.div
         className="absolute bottom-16 text-gray-300 dark:text-gray-600/50"
-        initial={{ x: -60 }}
-        animate={{ x: "calc(100vw + 60px)" }}
+        initial={{ x: xFrom(60) }}
+        animate={{ x: xTo(60) }}
         transition={{
           duration: 35, // Slower
           repeat: Infinity,
@@ -155,6 +196,59 @@ const AnimatedLogisticsBackground: React.FC<AnimatedLogisticsBackgroundProps> = 
           ))}
         </div>
       </div>
+        </>
+      ) : containerWidth > 0 ? (
+        <>
+          {/* Lightweight, container-relative variant for inline sections (e.g. Contact). */}
+          <motion.div
+            className="absolute top-8 text-blue-200 dark:text-blue-700/40"
+            initial={{ x: secFrom(60) }}
+            animate={{ x: secTo(60) }}
+            transition={{ duration: 24, repeat: Infinity, ease: "linear" }}
+          >
+            <Ship size={42} />
+          </motion.div>
+
+          <motion.div
+            className="absolute top-1/2 text-blue-300 dark:text-blue-600/40"
+            initial={{ x: secFrom(40) }}
+            animate={{ x: secTo(40) }}
+            transition={{ duration: 30, repeat: Infinity, ease: "linear", delay: 6 }}
+          >
+            <Ship size={28} />
+          </motion.div>
+
+          <motion.div
+            className="absolute bottom-40 flex space-x-3"
+            initial={{ x: secFrom(90) }}
+            animate={{ x: secTo(90) }}
+            transition={{ duration: 22, repeat: Infinity, ease: "linear" }}
+          >
+            <div className="w-10 h-6 bg-blue-100/50 dark:bg-blue-600/30 rounded-sm"></div>
+            <div className="w-10 h-6 bg-blue-200/50 dark:bg-blue-700/30 rounded-sm"></div>
+          </motion.div>
+
+          <motion.div
+            className="absolute bottom-24 text-gray-300 dark:text-gray-600/40"
+            initial={{ x: secFrom(50) }}
+            animate={{ x: secTo(50) }}
+            transition={{ duration: 20, repeat: Infinity, ease: "linear", delay: 3 }}
+          >
+            <Truck size={26} />
+          </motion.div>
+
+          <motion.div
+            className="absolute top-1/4 right-1/4 text-orange-200 dark:text-orange-600/40"
+            animate={{
+              y: [0, -14, 0],
+              rotate: [0, 4, -4, 0],
+            }}
+            transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <Package size={20} />
+          </motion.div>
+        </>
+      ) : null}
     </div>
   );
 };

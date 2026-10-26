@@ -8,6 +8,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { validationSchema } from "@/lib/validations";
 import { ToastContainer, toast } from "react-toastify";
+import AnimatedLogisticsBackground from "@/components/AnimatedLogisticsBackground";
 
 type FormValues = {
   email: string;
@@ -44,12 +45,15 @@ export default function Contact() {
     <motion.section
       id="contact"
       ref={ref}
-      className="bg-white/90 dark:bg-gray-900/30 mt-20 sm:mt-28 mb-20 sm:mb-28 w-[min(100%,38rem)] text-center"
+      className="relative bg-white/90 dark:bg-gray-900/30 mt-20 sm:mt-28 mb-20 sm:mb-28 w-[min(100%,38rem)] text-center"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 1 }}
       viewport={{ once: true }}
     >
+      <AnimatedLogisticsBackground variant="section" direction="rtl" layerClassName="z-0" />
+
+      <div className="relative z-10">
       <motion.div
         initial={{ opacity: 0, y: 100 }}
         animate={{ opacity: 1, y: 0 }}
@@ -114,6 +118,7 @@ export default function Contact() {
           </div>
         </div>
       </footer>
+      </div>
 
       <ToastContainer
         position="top-center"
