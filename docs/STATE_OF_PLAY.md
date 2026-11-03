@@ -15,13 +15,13 @@ the placeholder URL **`https://may-clan.vercel.app`**.
 The real domain **`may-clan.com` is currently broken** — its DNS is served by **Cloudflare**, and the
 apex/`www` return **raw WordPress PHP source** (PHP isn't executing on the origin). See §5.
 
-The two highest-impact open issues are:
+The highest-impact open issue is:
 
-1. **The contact form is non-functional but reports success** — it posts to a placeholder Formspree
-   endpoint (`mayclan-contact`) and never checks the HTTP response. Every enquiry on the live site is
-   silently dropped while the user sees *"Message sent successfully!"*.
-2. **The domain cannot be pointed at Vercel yet** — DNS lives in a **Cloudflare account we don't
+1. **The domain cannot be pointed at Vercel yet** — DNS lives in a **Cloudflare account we don't
    control** (believed owned by a previous developer), so the registrar-side Netfirms DNS panel is inert.
+
+> ✅ **Resolved** (previously the top open issue): the contact form posted to a placeholder Formspree
+> endpoint and silently dropped every enquiry. It now posts to **Web3Forms** and checks the response — see §6.
 
 ## 2. Stack
 
@@ -116,15 +116,19 @@ lib/
 - Clean up: retire the `*` wildcard routing `mail`/`cpanel`/`ftp`/… to the broken WP origin, and
   `mx.may-clan.com` if mail stays unused.
 
-## 6. Email / contact-form plan (Resend)
+## 6. Email / contact-form plan (Web3Forms now; Resend deferred)
 
-- **Current:** `components/Contact.tsx` POSTs to `https://formspree.io/f/mayclan-contact` — a
-  placeholder. No `app/api/` route, no `.env`, no email SDK installed.
+- **Current:** `components/Contact.tsx` POSTs JSON to `https://api.web3forms.com/submit` (Web3Forms,
+  free tier) with a client-side access key (`NEXT_PUBLIC_WEB3FORMS_KEY`, literal fallback in code).
+  Recipient = `soukaidev@gmail.com` (the Web3Forms account owner) for now — the destination is chosen
+  in the dashboard (Form 1 → Settings → Email → Recipient Emails), not encoded in the request. Reply-to
+  is the submitter's `email`. No backend required, so this fits the
+  `output: 'export'` static deploy. Resend is deferred (see Phase A).
 - **Resend facts (verified from pricing/docs):**
   - Free = **3,000 emails/mo, 100/day, 3 custom domains**, 1 webhook endpoint, 30-day retention.
   - Supports verifying a **subdomain** instead of the root → use **`send.may-clan.com`** to keep the
     apex MX free for Cloudflare Email Routing.
-- **Recommended architecture:**
+- **Long-term (Phase B) architecture — Resend** (requires dropping `output: 'export'`):
   - **Receive:** Cloudflare Email Routing (free) → `info@may-clan.com` forwards to personal inbox
     (and optionally `vital_logistics@ymail.com`).
   - **Send:** `app/api/contact/route.ts` (server route handler — API key never reaches the browser) →
@@ -155,11 +159,11 @@ lib/
 
 | Var | Scope | Notes |
 |---|---|---|
-| `RESEND_API_KEY` | server | Resend API key, Phase A |
-| `CONTACT_TO_EMAIL` | server | recipient for the contact form |
-| (later) `RESEND_FROM` / domain | server | `noreply@send.may-clan.com` etc. |
+| `NEXT_PUBLIC_WEB3FORMS_KEY` | build (client) | Web3Forms access key; optional — code falls back to a literal |
 
-`.env*` is already gitignored; keep keys out of the browser entirely (server route handler only).
+`.env*` is already gitignored. The Web3Forms key ships in the browser by design (that's how the
+service works — it's a client-side POST); it is not a secret. Server-side-only keys (Resend etc.)
+still belong behind a route handler, which requires dropping `output: 'export'`.
 
 ## 9. Tooling notes (nvm / repomix)
 
@@ -172,9 +176,12 @@ lib/
 
 ## 10. Roadmap
 
-- **Phase A — Contact form (unblocked, start here):** `npm i resend` → `app/api/contact/route.ts` →
-  extend `validations.ts` (`name`, `phone`, `shipmentType`, `origin`/`destination`) → fix `res.ok`
-  bug → `.env.local`.
+- **Phase A — Contact form ✅ DONE (Web3Forms):** `components/Contact.tsx` posts JSON to
+  `api.web3forms.com/submit` (free). Fixed the `res.ok`/`data.success` false-success bug, and the
+  footer email line removed (no working public address yet — interim form recipient is the account's
+  Gmail). The prior plan here —
+  `npm i resend` + `app/api/contact/route.ts` — is **invalid**: `next.config.ts` sets
+  `output: 'export'`, so there are no route handlers in the deployed static build.
 - **Phase B — `info@may-clan.com` (needs Cloudflare):** Email Routing + `send.may-clan.com` Resend
   verification + fix SPF/DKIM.
 - **Phase C — Domain cutover (needs Cloudflare):** add domain in Vercel → set A/CNAME records → retire
@@ -188,6 +195,6 @@ lib/
 
 - [ ] Cloudflare takeover path (get login vs self-serve nameserver change).
 - [ ] Resend account owner (client vs developer interim).
-- [ ] Contact-form recipient (personal — confirmed as interim; `info@may-clan.com` once routing exists).
+- [x] Contact-form recipient — interim `soukaidev@gmail.com` (Web3Forms account owner); `nikaustrie@gmail.com` linked but awaiting that owner's verification click; `vital_logistics@ymail.com` dropped (no inbox access).
 - [ ] Redesign scope (polish single page vs multi-page restructure).
 - [ ] Client hosting path (Vercel Pro vs self-host) — triggers a second domain cutover if they leave Hobby.

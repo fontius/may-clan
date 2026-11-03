@@ -12,7 +12,7 @@ Next.js website for May-Clan's shipping and logistics services between Canada an
 ## Technologies Used
 - Next.js 14
 - Tailwind CSS
-- Formspree for contact forms
+- Web3Forms for contact forms
 - Framer Motion for animations
 
 

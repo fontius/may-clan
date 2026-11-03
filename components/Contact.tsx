@@ -18,18 +18,40 @@ type FormValues = {
 export default function Contact() {
   const { ref } = useSectionInView("Contact");
   const [isLoading, setIsLoading] = useState(false);
-  const formspreeEndpoint = "mayclan-contact"; // TODO: Replace with actual May-Clan Formspree endpoint
+  // Web3Forms access key — public by design (it ships in the static bundle). Override via
+  // NEXT_PUBLIC_WEB3FORMS_KEY at build time if the key ever changes. The destination inbox is
+  // configured in the Web3Forms dashboard (Form Settings → Email → Recipient Emails), not here — the
+  // key itself contains no address.
+  const WEB3FORMS_ENDPOINT = "https://api.web3forms.com/submit";
+  const WEB3FORMS_KEY =
+    process.env.NEXT_PUBLIC_WEB3FORMS_KEY ?? "b3c5711e-7430-45c9-ad8c-bef289619c17";
 
   const handleSubmit = async (values: FormValues, { resetForm }: { resetForm: () => void }) => {
     try {
       setIsLoading(true);
-      await fetch(`https://formspree.io/f/${formspreeEndpoint}`, {
+      const response = await fetch(WEB3FORMS_ENDPOINT, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Accept: "application/json",
         },
-        body: JSON.stringify(values),
+        body: JSON.stringify({
+          access_key: WEB3FORMS_KEY,
+          email: values.email, // Web3Forms uses this as the reply-to address
+          replyto: values.email,
+          subject: "New enquiry — may-clan.com",
+          message: values.message,
+          botcheck: false, // invisible honeypot: a bot that flips this is filtered as spam
+        }),
       });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(
+          data?.body?.message || data?.message || `Request failed with status ${response.status}`
+        );
+      }
 
       resetForm();
       toast.success("Message sent successfully!");
@@ -113,7 +135,6 @@ export default function Contact() {
             
           </div>
           <div className="text-xs text-gray-500 dark:text-gray-500 mt-2">
-            <p>Email: info@may-clan.com</p>
             <p>24/7 Customer Support Available</p>
           </div>
         </div>
