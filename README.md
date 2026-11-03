@@ -7,7 +7,7 @@ Next.js website for May-Clan's shipping and logistics services between Canada an
 - Optimized for SEO with custom metadata
 - Contact form integration
 - Dark/light mode support
-- Coming soon: Cloudinary gallery for showcasing deals and promotions
+- Cloudinary-driven hero background slider (tag images `hero` in Cloudinary to update it)
 
 ## Technologies Used
 - Next.js 14
@@ -22,7 +22,7 @@ Next.js website for May-Clan's shipping and logistics services between Canada an
 - Semantic HTML structure
 
 ## Future Updates
-- Cloudinary integration for deals gallery
+- Curate the hero slider imagery (tag them `hero` in Cloudinary)
 - Enhanced shipment tracking section
 - Multilingual support (English/French)
 

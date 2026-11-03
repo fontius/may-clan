@@ -6,6 +6,7 @@ import Contact from "@/components/Contact";
 import Gallery from "@/components/Gallery";
 import Image from 'next/image';
 import AnimatedLogisticsBackground from "@/components/AnimatedLogisticsBackground";
+import CloudinaryHeroSlider from "@/components/CloudinaryHeroSlider";
 
 
 
@@ -26,9 +27,14 @@ export default function Home() {
       <section
         ref={homeRef}
         id="home"
-        className="h-screen bg-gray-50 dark:bg-gray-900 w-full flex flex-col items-center justify-center px-4 scroll-mt-19 relative overflow-hidden"
+        className="h-screen bg-gray-50 dark:bg-gray-900 w-full flex flex-col items-center justify-center px-4 scroll-mt-19 relative isolate overflow-hidden"
       >
         
+
+        {/* Cloudinary photo layer — decorative, painted behind the existing animation + logo.
+            `isolate` on the <section> keeps this z-0 layer under the z-10 content wrapper,
+            and the -z-10 animation inside that wrapper therefore stays on top of it. */}
+        <CloudinaryHeroSlider />
 
         <div className="text-center max-w-4xl z-10">
 

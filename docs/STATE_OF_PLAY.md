@@ -51,6 +51,7 @@ components/
   Contact.tsx                # Formik contact form (currently broken endpoint)
   Gallery.tsx                # Cloudinary product-gallery widget (orphaned section)
   AnimatedLogisticsBackground.tsx  # Looping hero animation (ships/trucks/packages)
+  CloudinaryHeroSlider.tsx    # Hero background photo layer (Cloudinary, decorative)
   SubmitBtn.tsx              # DEAD — not imported anywhere
 context/active-section-context.tsx  # Shared active-section + click-timestamp state
 lib/
@@ -58,6 +59,8 @@ lib/
   types.ts                   # SectionName = (typeof links)[number]["name"]
   hooks.ts                   # useSectionInView (IntersectionObserver → active section)
   validations.ts             # zod schema (currently only email + message)
+  cloudinary.ts              # Cloudinary URL / srcset builders (public cloud name, no API key)
+  hero-slides.ts             # Hero slide source: hero -> deals tag, committed fallback list
 ```
 
 ## 4. Deployment
@@ -160,6 +163,7 @@ lib/
 | Var | Scope | Notes |
 |---|---|---|
 | `NEXT_PUBLIC_WEB3FORMS_KEY` | build (client) | Web3Forms access key; optional — code falls back to a literal |
+| `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME` | build (client) | Cloudinary cloud name; optional — falls back to `dsmgnh5rj` (same literal as `Gallery.tsx`) |
 
 `.env*` is already gitignored. The Web3Forms key ships in the browser by design (that's how the
 service works — it's a client-side POST); it is not a secret. Server-side-only keys (Resend etc.)
@@ -194,7 +198,30 @@ still belong behind a route handler, which requires dropping `output: 'export'`.
 ## 11. Open decisions
 
 - [ ] Cloudflare takeover path (get login vs self-serve nameserver change).
+- [ ] **Coolify alerting transport** — event flags are ON but `smtp_enabled: false`,
+      `resend_enabled: false`, `use_instance_email_settings: false` → failures notify nobody.
+      Fix in Coolify → Server → Notifications (SMTP, Resend, or a webhook), then send a test.
+- [ ] Hero slider imagery — currently the `deals` tag (18/21 landscape). Tag 4–6 curated
+      landscape shots `hero` in Cloudinary and they take over with no redeploy.
 - [ ] Resend account owner (client vs developer interim).
 - [x] Contact-form recipient — interim `soukaidev@gmail.com` (Web3Forms account owner); `nikaustrie@gmail.com` linked but awaiting that owner's verification click; `vital_logistics@ymail.com` dropped (no inbox access).
 - [ ] Redesign scope (polish single page vs multi-page restructure).
 - [ ] Client hosting path (Vercel Pro vs self-host) — triggers a second domain cutover if they leave Hobby.
+
+## 12. Hero background slider (Cloudinary)
+
+- `components/CloudinaryHeroSlider.tsx` renders an `aria-hidden`, crossfading photo layer at
+  `absolute inset-0 z-0` inside `#home`. `app/page.tsx` adds `isolate` to the section so the
+  paint order is explicit; the logo and `AnimatedLogisticsBackground` are untouched and stay above
+  it (the content wrapper is `z-10`; the animation is `-z-10` *inside* that stacking context).
+- Source of truth: `lib/hero-slides.ts`. Resolution order = tag `hero` → tag `deals` →
+  committed `HERO_SLIDES` list (painted on first paint). Tag listing is public on this account
+  (`…/image/list/<tag>.json`, CORS `*`, 60s CDN cache), so **no API key and no redeploy** are
+  needed to change the images — retag in Cloudinary and reload.
+- Only landscape assets (`width >= height`) are used, capped at `MAX_HERO_SLIDES` (5), served via
+  `f_auto,q_auto:eco,c_fill,g_auto` with a 9:16 crop on phones and 16:9 on desktop (`<picture>`).
+- Readability: `HERO_SCRIM_CLASSES` (in the component) is an ~88% white / ~92% `gray-950` wash — the
+  "muted texture" setting, chosen so the existing light-blue logistics animation keeps its contrast.
+- Behaviour: pauses when the tab is hidden or the hero is off-screen, honours
+  `prefers-reduced-motion` (static first slide, no timer), drops broken assets via `onError`, and
+  stages extra slides after first paint so the LCP element is just the first photo.
